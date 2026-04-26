@@ -1,0 +1,15 @@
+{
+  "id": "security-rate-limiting",
+  "type": "pattern",
+  "name": "Rate Limiting Implementation",
+  "tags": ["security", "rate-limit", "api", "protection"],
+  "summary": "Protect APIs from abuse using token bucket or sliding window rate limiting.",
+  "problem": "Prevent API abuse and DDoS attacks",
+  "solution": "Implement token bucket algorithm per user/IP. Return 429 status code when limit exceeded. Use Redis for distributed rate limiting.",
+  "example": "\n// Token bucket implementation\nclass TokenBucket {\n  constructor(capacity, refillRate) {\n    this.capacity = capacity;\n    this.tokens = capacity;\n    this.refillRate = refillRate;\n    this.lastRefill = Date.now();\n  }\n  \n  consume(tokens = 1) {\n    this.refill();\n    if (this.tokens >= tokens) {\n      this.tokens -= tokens;\n      return true;\n    }\n    return false;\n  }\n}\n",
+  "metadata": {
+    "priority": 9,
+    "complexity": "low",
+    "related_ids": ["auth-jwt-best-practice"]
+  }
+}

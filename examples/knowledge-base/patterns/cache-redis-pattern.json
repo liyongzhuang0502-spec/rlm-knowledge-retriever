@@ -1,0 +1,15 @@
+{
+  "id": "cache-redis-pattern",
+  "type": "pattern",
+  "name": "Redis Caching Strategy",
+  "tags": ["cache", "redis", "performance", "backend"],
+  "summary": "Multi-layer caching strategy using Redis with cache-aside, write-through, and eviction policies.",
+  "problem": "Reduce database load and improve read performance",
+  "solution": "Use cache-aside pattern with TTL. Implement cache warming for hot data. Use Redis Cluster for horizontal scaling.",
+  "example": "\n// Cache-aside pattern\nasync function getUser(userId) {\n  const cacheKey = `user:${userId}`;\n  let user = await redis.get(cacheKey);\n  \n  if (!user) {\n    user = await db.users.findById(userId);\n    await redis.setex(cacheKey, 300, JSON.stringify(user));\n  } else {\n    user = JSON.parse(user);\n  }\n  \n  return user;\n}\n",
+  "metadata": {
+    "priority": 8,
+    "complexity": "medium",
+    "related_ids": ["high-concurrency-design"]
+  }
+}

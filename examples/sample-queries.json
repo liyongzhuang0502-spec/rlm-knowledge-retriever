@@ -1,0 +1,24 @@
+[
+  {
+    "query": "设计一个支持10万QPS的JWT认证系统",
+    "context": {
+      "phase": "designing",
+      "domain": "backend",
+      "tags": ["auth", "jwt", "performance"]
+    }
+  },
+  {
+    "query": "怎么防止数据库查询性能问题",
+    "context": {
+      "phase": "implementing",
+      "domain": "database"
+    }
+  },
+  {
+    "query": "API安全防护最佳实践",
+    "context": {
+      "phase": "designing",
+      "domain": "security"
+    }
+  }
+]

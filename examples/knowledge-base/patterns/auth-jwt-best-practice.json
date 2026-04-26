@@ -1,0 +1,15 @@
+{
+  "id": "auth-jwt-best-practice",
+  "type": "pattern",
+  "name": "JWT Authentication Best Practices",
+  "tags": ["auth", "jwt", "security", "backend", "api"],
+  "summary": "Production-ready JWT authentication implementation patterns including token structure, refresh mechanism, and security hardening.",
+  "problem": "How to implement secure and scalable JWT authentication",
+  "solution": "Use RS256 with short-lived access tokens (15min) and long-lived refresh tokens (7d). Store tokens in httpOnly cookies. Implement token rotation and blacklist for logout.",
+  "example": "\n// Access token payload\n{\n  'sub': 'user-id',\n  'iat': 1234567890,\n  'exp': 1234568790,  // 15 minutes\n  'scope': ['read', 'write']\n}\n\n// Refresh token rotation\nfunction refreshToken(oldRefreshToken) {\n  validate(oldRefreshToken);\n  blacklist(oldRefreshToken);\n  return generateNewTokenPair();\n}\n",
+  "metadata": {
+    "priority": 10,
+    "complexity": "medium",
+    "related_ids": ["auth-oauth2-flow", "security-rate-limiting"]
+  }
+}

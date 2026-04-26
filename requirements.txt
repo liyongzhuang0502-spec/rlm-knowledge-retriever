@@ -1,0 +1,12 @@
+# Core dependencies
+rlms>=0.1.0
+
+# Optional: Semantic search
+sentence-transformers>=2.0.0
+
+# LLM backends
+openai>=1.0.0
+anthropic>=0.18.0
+
+# Utils
+numpy>=1.24.0

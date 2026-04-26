@@ -1,0 +1,13 @@
+{
+  "id": "lesson-n-plus-one",
+  "type": "lesson",
+  "name": "N+1 Query Problem",
+  "tags": ["database", "performance", "orm", "backend"],
+  "trigger": "implementing-database",
+  "context": "Loading a list of users with their posts caused N+1 database queries",
+  "advice": "Always use eager loading (JOIN) or batch loading (DataLoader pattern) when fetching related entities. Monitor query logs in development.",
+  "metadata": {
+    "severity": "high",
+    "related_ids": ["high-concurrency-design"]
+  }
+}

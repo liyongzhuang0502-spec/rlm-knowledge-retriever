@@ -1,0 +1,15 @@
+{
+  "id": "high-concurrency-design",
+  "type": "pattern",
+  "name": "High Concurrency System Design",
+  "tags": ["concurrency", "performance", "scaling", "backend", "architecture"],
+  "summary": "Patterns for handling 100k+ QPS including connection pooling, caching strategies, and load balancing.",
+  "problem": "System needs to handle 100,000+ requests per second",
+  "solution": "Implement multi-layer caching (L1: local, L2: Redis, L3: CDN), connection pooling, async processing, and horizontal scaling with consistent hashing.",
+  "example": "\n// Connection pool configuration\nconst pool = new ConnectionPool({\n  min: 10,\n  max: 100,\n  acquireTimeout: 5000,\n  idleTimeout: 30000\n});\n\n// Rate limiting with Redis\nasync function rateLimit(userId) {\n  const key = `rate:${userId}`;\n  const current = await redis.incr(key);\n  if (current === 1) await redis.expire(key, 60);\n  return current <= 100;  // 100 req/min\n}\n",
+  "metadata": {
+    "priority": 9,
+    "complexity": "high",
+    "related_ids": ["cache-redis-pattern", "load-balancer-algorithm"]
+  }
+}

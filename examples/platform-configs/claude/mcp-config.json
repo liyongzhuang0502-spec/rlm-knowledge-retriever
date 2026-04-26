@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "rlm-knowledge-retriever": {
+      "command": "python",
+      "args": [
+        "-m",
+        "rlm_kb.rlm_kb"
+      ],
+      "env": {
+        "KB_PATH": "./.sdd/knowledge",
+        "OPENAI_API_KEY": "${OPENAI_API_KEY}"
+      }
+    }
+  }
+}
