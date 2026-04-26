@@ -81,8 +81,67 @@ return sorted(high_perf + security, key=lambda x: x.priority)
 
 ### Installation
 
+**From GitHub (Recommended):**
+
 ```bash
-pip install rlm-knowledge-retriever
+pip install git+https://github.com/liyongzhuang0502-spec/rlm-knowledge-retriever.git
+```
+
+**With all optional dependencies:**
+
+```bash
+pip install "git+https://github.com/liyongzhuang0502-spec/rlm-knowledge-retriever.git#egg=rlm-knowledge-retriever[all]"
+```
+
+### Setup LLM Backend
+
+**Option A: OpenAI / Claude / Gemini (Cloud)**
+
+```bash
+export OPENAI_API_KEY="sk-..."
+```
+
+**Option B: Local Models (Ollama / vLLM / LM Studio)**
+
+```bash
+# Ollama example - no API key needed
+# 1. Install Ollama: https://ollama.com
+# 2. Pull a model: ollama pull qwen2.5:14b
+# 3. Run with custom base URL
+
+rlm-kb search --backend openai --model qwen2.5:14b --base-url http://localhost:11434/v1 < query.json
+```
+
+**Option C: vLLM Server**
+
+```bash
+# Start vLLM server
+python -m vllm.entrypoints.openai.api_server --model qwen/Qwen2.5-14B-Instruct
+
+# Use in another terminal
+rlm-kb search --backend openai --model qwen/Qwen2.5-14B-Instruct --base-url http://localhost:8000/v1 < query.json
+```
+
+### Verify Installation
+
+```bash
+rlm-kb status
+```
+
+### Quick Test
+
+```bash
+# 1. Clone repo for examples
+git clone https://github.com/liyongzhuang0502-spec/rlm-knowledge-retriever.git /tmp/rlm-kb
+cd /tmp/rlm-kb
+
+# 2. Test with example knowledge base (using local model)
+echo '{"query":"JWT authentication","tags":["auth"]}' | \
+  rlm-kb --kb-path ./examples/knowledge-base \
+         --backend openai \
+         --model qwen2.5:14b \
+         --base-url http://localhost:11434/v1 \
+         search
 ```
 
 ### CLI Usage
@@ -103,12 +162,20 @@ rlm-kb status --kb-path ./.sdd/knowledge
 ```python
 from rlm_kb import RLMKnowledgeEngine
 
-# Initialize
+# Option 1: Cloud LLM (OpenAI)
 kb = RLMKnowledgeEngine(
     kb_path="./.sdd/knowledge",
     rlm_backend="openai",
-    rlm_model="gpt-5-nano",
-    max_depth=2
+    rlm_model="gpt-5-nano"
+)
+
+# Option 2: Local Model (Ollama / vLLM / LM Studio)
+kb = RLMKnowledgeEngine(
+    kb_path="./.sdd/knowledge",
+    rlm_backend="openai",           # Use OpenAI-compatible API
+    rlm_model="qwen2.5:14b",        # Your local model name
+    base_url="http://localhost:11434/v1",  # Ollama endpoint
+    api_key="not-needed"            # Ollama doesn't need key
 )
 
 # Recursive search

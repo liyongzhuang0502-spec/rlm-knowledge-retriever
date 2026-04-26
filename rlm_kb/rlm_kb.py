@@ -78,6 +78,8 @@ class RLMKnowledgeEngine:
                  kb_path: str,
                  rlm_backend: str = "openai",
                  rlm_model: str = "gpt-5-nano",
+                 base_url: Optional[str] = None,
+                 api_key: Optional[str] = None,
                  max_depth: int = 2):
         self.kb_path = Path(kb_path)
         self.max_depth = max_depth
@@ -86,9 +88,14 @@ class RLMKnowledgeEngine:
         
         # RLM 实例 - 用于递归查询分解和关联判断
         if RLM_AVAILABLE:
+            backend_kwargs = {"model_name": rlm_model}
+            if base_url:
+                backend_kwargs["base_url"] = base_url
+            if api_key:
+                backend_kwargs["api_key"] = api_key
             self.rlm = RLM(
                 backend=rlm_backend,
-                backend_kwargs={"model_name": rlm_model},
+                backend_kwargs=backend_kwargs,
                 verbose=False
             )
         else:
@@ -530,6 +537,8 @@ def main():
     parser.add_argument("--kb-path", default="./.sdd/knowledge")
     parser.add_argument("--backend", default="openai")
     parser.add_argument("--model", default="gpt-5-nano")
+    parser.add_argument("--base-url", default=None, help="Custom API base URL for local models (e.g. http://localhost:11434/v1 for Ollama)")
+    parser.add_argument("--api-key", default=None, help="API key (optional for local models)")
     parser.add_argument("--max-depth", type=int, default=2)
     parser.add_argument("command", choices=["search", "inspect", "status"])
     
@@ -539,6 +548,8 @@ def main():
         kb_path=args.kb_path,
         rlm_backend=args.backend,
         rlm_model=args.model,
+        base_url=args.base_url,
+        api_key=args.api_key,
         max_depth=args.max_depth
     )
     
